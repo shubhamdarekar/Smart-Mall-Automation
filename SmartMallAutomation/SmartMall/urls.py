@@ -1,4 +1,6 @@
 from django.conf.urls import url
+from django.urls import path, re_path
+
 from . import views
 
 urlpatterns = [
@@ -69,4 +71,8 @@ urlpatterns = [
     url('^addfpro/$',views.addfpro),
     url('^addSTO/$',views.addSTO),
     url('^fridgeProducts/$',views.fridgeProducts),
+    path('parking/', views.parkingview),
+
+
+    re_path(r'getparkingdata/$', views.ajaxresponse),
 ]

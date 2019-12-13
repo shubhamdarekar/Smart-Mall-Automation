@@ -1,3 +1,4 @@
+from django.core import serializers
 from django.shortcuts import render
 
 # Create your views here.
@@ -12,7 +13,7 @@ from django.template import loader
 #from django.template import context
 #import mysql.connector
 from SmartMall.forms import LoginForm
-from .models import Product,Fridge,Buyer,Seller,SellerStock,Order,Fridgetemp,Fridgehumidity,User1
+from .models import Product, Fridge, Buyer, Seller, SellerStock, Order, Fridgetemp, Fridgehumidity, User1, Parking
 # from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth import authenticate
@@ -1064,7 +1065,18 @@ def email(request):
 
 # def people(request):
 #     istekler = Order.objects.all()
-#     return render(request, 'list.html', locals())    												
+#     return render(request, 'list.html', locals())
+
+def parkingview(request):
+	data = serializers.serialize("json",Parking.objects.all())
+	return render(request, 'SmartMall/parking.html', {'data': data})
+
+
+def ajaxresponse(request):
+	data = serializers.serialize("json", Parking.objects.all())
+	return HttpResponse(data)
+
+
 
 
 

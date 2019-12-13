@@ -69,3 +69,10 @@ class Order(models.Model):
 	OrderPrice=models.IntegerField()
 	class Meta:
 		unique_together = ('SellerID','BuyerID','ProductID','SellerStockID',)
+
+class Parking(models.Model):
+	field = models.IntegerField()
+	dist = models.FloatField()
+
+	class Meta:
+		db_table = 'parking'
