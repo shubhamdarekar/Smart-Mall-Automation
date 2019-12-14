@@ -38,7 +38,11 @@ def Login(request):
 	return render(request,"SmartMall/Login.html")
 
 def Loginbin(request):
+<<<<<<< Updated upstream
 	return render(request,"SmartMall/BinLogin.html")	
+=======
+	return render(request,"SmartMall/BinLogin.html")
+>>>>>>> Stashed changes
 
 def openadmin(request):
 	return render(request,"SmartMall/Admin.html")
@@ -76,9 +80,15 @@ def verifyLogin(request):
 				elif user.role == 'WAR':
 					return redirect('/sellerDashboard/')
 				elif user.role == 'BAD':
+<<<<<<< Updated upstream
 					return redirect('/binadminDashboard/')
 				elif user.role == 'BUR':
 					return redirect('/binuserDashboard/')	
+=======
+					return redirect('/BinAdmin/')
+				elif user.role == 'BUR':
+					return redirect('/BinUser/')		
+>>>>>>> Stashed changes
 				else:
 				    return HttpResponse("Error!!")
 
@@ -105,12 +115,21 @@ def Signupbin(request):
 
 	return render(request,"SmartMall/BinSignup.html")
 
+<<<<<<< Updated upstream
 def binadminDashboard(request):
 
 	return render(request,"SmartMall/BinAdmin.html")
 def binuserDashboard(request):
 
 	return render(request,"SmartMall/BinUser.html")
+=======
+def BinAdmin(request):
+	return render(request,"SmartMall/BinAdmin.html")
+
+def BinUser(request):
+	return render(request,"SmartMall/BinUser.html")		
+
+>>>>>>> Stashed changes
 
 def signup(request):
 	if request.method == 'POST':
@@ -146,7 +165,11 @@ def signupbin(request):
 		pincode = request.POST['pincode']
 		# role = request.POST['role']
 		pwd = request.POST['password']
+<<<<<<< Updated upstream
 		tag = request.POST['tag']
+=======
+		tag= request.POST['tag']
+>>>>>>> Stashed changes
 
 		newuser = User1()
 		newuser.Name = name
@@ -987,6 +1010,23 @@ def addcashS(request):
 		
 		table.save()
 	return redirect('/sellerDashboard/')		
+
+def addbin(request):
+	if request.method == 'POST':
+		
+		loc= request.POST['binlocation']
+		stat= request.POST['binstatus']
+		
+		
+		
+		table = dustbinstatus()
+		table.status=stat
+		table.location = loc 
+		
+
+		
+		table.save()
+	return redirect('/BinAdmin/')
 
 def addcashB(request):
 	if request.method == 'POST':
