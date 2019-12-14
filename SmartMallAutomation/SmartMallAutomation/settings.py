@@ -78,9 +78,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'SmartMall',
-        'USER':'abc',
-        'PASSWORD':'123',
-        'HOST':'192.168.1.6',
+        'USER':'root',
+        'PASSWORD':'',
+        'HOST':'127.0.0.1',
         'PORT':'',
     }
 }
