@@ -37,6 +37,9 @@ def index(request):
 def Login(request):
 	return render(request,"SmartMall/Login.html")
 
+def Loginbin(request):
+	return render(request,"SmartMall/BinLogin.html")	
+
 def openadmin(request):
 	return render(request,"SmartMall/Admin.html")
 
@@ -72,6 +75,10 @@ def verifyLogin(request):
 					return redirect('/buyerDashboard/')
 				elif user.role == 'WAR':
 					return redirect('/sellerDashboard/')
+				elif user.role == 'BAD':
+					return redirect('/binadminDashboard/')
+				elif user.role == 'BUR':
+					return redirect('/binuserDashboard/')	
 				else:
 				    return HttpResponse("Error!!")
 
@@ -94,6 +101,16 @@ def Signup(request):
 
 	return render(request,"SmartMall/Signup.html")
 
+def Signupbin(request):
+
+	return render(request,"SmartMall/BinSignup.html")
+
+def binadminDashboard(request):
+
+	return render(request,"SmartMall/BinAdmin.html")
+def binuserDashboard(request):
+
+	return render(request,"SmartMall/BinUser.html")
 
 def signup(request):
 	if request.method == 'POST':
@@ -118,6 +135,31 @@ def signup(request):
 		newuser.password = pwd
 		newuser.save()
 		return render(request,'SmartMall/Login.html')
+
+def signupbin(request):
+	if request.method == 'POST':
+		name = request.POST['name']
+		phone = request.POST['phone']
+		email = request.POST['email']
+		flat = request.POST['flat']
+		city = request.POST['city']
+		pincode = request.POST['pincode']
+		# role = request.POST['role']
+		pwd = request.POST['password']
+		tag = request.POST['tag']
+
+		newuser = User1()
+		newuser.Name = name
+		newuser.Phone = phone
+		newuser.email = email
+		newuser.Flat = flat
+		newuser.City = city
+		newuser.tag = tag
+		newuser.Pincode = pincode
+		newuser.role = 'BUR'
+		newuser.password = pwd
+		newuser.save()
+		return render(request,'SmartMall/BinLogin.html')
 
 def addsel(request):
 	if request.method == 'POST':
