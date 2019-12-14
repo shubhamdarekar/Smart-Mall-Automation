@@ -9,7 +9,11 @@ urlpatterns = [
     url('^index$',views.index,name= 'Index'),
     url('^Login/$',views.Login,name = 'Login'),
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     url('^Loginbin/$',views.Loginbin,),
+=======
+    url('^Loginbin/$',views.Loginbin),
+>>>>>>> Stashed changes
 =======
     url('^Loginbin/$',views.Loginbin),
 >>>>>>> Stashed changes
@@ -36,8 +40,13 @@ urlpatterns = [
     url('^buyerDashboard/$',views.buyerDash),
     url('^sellerDashboard/$',views.sellerDash),
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     url('^binadminDashboard/$',views.binadminDashboard),
     url('^binuserDashboard/$',views.binuserDashboard),
+=======
+    url('^BinAdmin/$',views.BinAdmin),
+    url('^BinUser/$',views.BinUser),
+>>>>>>> Stashed changes
 =======
     url('^BinAdmin/$',views.BinAdmin),
     url('^BinUser/$',views.BinUser),
