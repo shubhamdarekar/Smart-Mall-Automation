@@ -8,11 +8,13 @@ urlpatterns = [
 	url('^$',views.index,name= 'index'),
     url('^index$',views.index,name= 'Index'),
     url('^Login/$',views.Login,name = 'Login'),
+    url('^Loginbin/$',views.Loginbin,),
 
     url('^loginVerify/$',views.verifyLogin),
     url('^logout/$',views.logout),
 
     url('^Signup/$',views.Signup),
+    url('^Signupbin/$',views.Signupbin),
     url('^addSEL/$',views.addsel),
     url('^ordAPP/$',views.ordAPP),
     url('^ordORG/$',views.ordORG),
@@ -25,9 +27,14 @@ urlpatterns = [
 
 
     url('^signup/$',views.signup),
+    url('^signupbin/$',views.signupbin),
     url('^adminDashboard/$',views.adminDash),
     url('^buyerDashboard/$',views.buyerDash),
     url('^sellerDashboard/$',views.sellerDash),
+    url('^binadminDashboard/$',views.binadminDashboard),
+    url('^binuserDashboard/$',views.binuserDashboard),
+    url('^BinAdmin/$',views.BinAdmin),
+    url('^BinUser/$',views.BinUser),
     url('^openfridge/$',views.openFridge),
     url('^openorder/$',views.openOrder),
     url('^openstock/$',views.openStock),
@@ -65,6 +72,7 @@ urlpatterns = [
     url('^sellercashdetail/$',views.sellercashdetail),
 
     url('^addP/$',views.addP),
+    url('^addbin/$',views.addbin),
     url('^addB/$',views.addB),
     url('^addcashS/$',views.addcashS),
     url('^addcashB/$',views.addcashB),
