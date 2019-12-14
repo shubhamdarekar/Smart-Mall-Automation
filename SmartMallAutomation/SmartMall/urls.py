@@ -75,4 +75,5 @@ urlpatterns = [
 
 
     re_path(r'getparkingdata/$', views.ajaxresponse),
+    re_path(r'getparkinghistory/$',views.ajaxresponsehistory)
 ]

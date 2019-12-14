@@ -297,7 +297,49 @@
   </section>
 
 
+<script>
+    var i = 0;
+    var cell1,cell2,cell3,cell4,cell5;
+        function loadDoc2() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
 
+                var ab = JSON.parse(this.responseText);
+
+                var table = document.getElementById('customers')
+
+                for (x in ab){
+                    {#s = s + '<tr> <td>'+ab[x].id+'</td><td>' +ab[x].in +'</td><td>' +ab[x].out +'</td><td>' +ab[x].in +'</td><td>' +ab[x].diff +'</td><td>' +ab[x].status + '</tr>';#}
+
+                    if(i === 0){
+                        var row = table.insertRow();
+                        cell1 = row.insertCell();
+                        cell2 = row.insertCell();
+                        cell3 = row.insertCell();
+                        cell4 = row.insertCell();
+                        cell5 = row.insertCell();
+                    }
+
+
+                    cell1.innerHTML = ab[x].id;
+                    cell2.innerHTML = ab[x].in;
+                    cell3.innerHTML = ab[x].out;
+                    cell4.innerHTML = ab[x].diff;
+                    cell5.innerHTML = ab[x].status;
+
+                }
+                i+=1;
+
+
+
+                }
+                };
+            xhttp.open("GET", "getparkinghistory/", true);
+         xhttp.send();
+        }
+        window.setInterval(loadDoc2, 50);
+    </script>
   <section class="blok" id="services">
     <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase"><strong>Parking History</strong></h2>
@@ -326,26 +368,11 @@
 
           <tr>
             <th>Id</th>
-            <th>Order Quantity</th>
-            <th>Order Price</th>
-            <th>Buyer ID</th>
-            <th>Product ID</th>
-            <th>Seller ID</th>
-            <th>SellerStock ID</th>
+            <th>In</th>
+            <th>Out</th>
+            <th>Difference</th>
+            <th>Status</th>
           </tr>
-
-            {% for v in data.values %}
-            <tr>
-
-
-              {% for value in v.values %}
-              <td> {{ value }} </td>
-
-
-            {% endfor %}
-            </tr>
-
-            {% endfor %}
 
           </table>
   </div>

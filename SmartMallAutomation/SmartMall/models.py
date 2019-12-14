@@ -3,6 +3,9 @@ from django.contrib.auth import get_user_model
 
 
 # Create your models here.
+from django.db.models.functions import datetime
+
+
 class Product(models.Model):
 	ProductPrice=models.IntegerField()
 	ProductName=models.CharField(max_length=20)
@@ -76,3 +79,11 @@ class Parking(models.Model):
 
 	class Meta:
 		db_table = 'parking'
+
+class Fingerenter(models.Model):
+	fingernumber = models.IntegerField()
+	inn = models.IntegerField()
+	time = models.DateTimeField(auto_now=True)
+
+	class Meta:
+		db_table = 'fingerenter'
