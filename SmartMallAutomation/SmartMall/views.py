@@ -20,7 +20,7 @@ from django.utils import timezone
 
 from SmartMall.forms import LoginForm
 from .models import Product, Fridge, Buyer, Seller, SellerStock, Order, Fridgetemp, Fridgehumidity, User1, Parking, \
-    Fingerenter
+    Fingerenter, Dustbin, Token
 # from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth import authenticate
@@ -127,7 +127,15 @@ def binadminDashboard(request):
 
 
 def binuserDashboard(request):
-    return render(request, "SmartMall/BinUser.html")
+    User_id = request.session['logged_in']
+    user = User1.objects.get(id=User_id)
+    tag = user.tag
+    a = Token.objects.filter(tagid=tag)
+    data = 0
+    for i in a:
+        data += i.weight
+
+    return render(request, "SmartMall/BinUser.html", {'data': data, 'data1': data / 10})
 
 
 def BinAdmin(request):
@@ -135,7 +143,15 @@ def BinAdmin(request):
 
 
 def BinUser(request):
-    return render(request, "SmartMall/BinUser.html")
+    User_id = request.session['logged_in']
+    user = User1.objects.get(id=User_id)
+    tag = user.tag
+    a = Token.objects.filter(tagid=tag)
+    data = 0
+    for i in a:
+        data += i.weight
+
+    return render(request, "SmartMall/BinUser.html", {'data': data, 'data1': "{0:.2f}".format(data / 10)})
 
 
 def signup(request):
@@ -1183,3 +1199,13 @@ def ajaxresponsehistory(request):
 
     z = json.dumps(li)
     return HttpResponse(z)
+
+
+def ajaxresponseBin(request):
+    data = serializers.serialize("json", Dustbin.objects.all())
+    return HttpResponse(data)
+
+
+def uploaded(request):
+    return render(request,
+                  'https://console.firebase.google.com/u/0/project/mallautomation/storage/mallautomation.appspot.com/files~2Ffridge')
