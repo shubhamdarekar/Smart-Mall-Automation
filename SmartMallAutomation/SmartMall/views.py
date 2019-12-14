@@ -83,9 +83,9 @@ def verifyLogin(request):
                 request.session['logged_in'] = user.id
                 if user.role == 'ADM':
                     return redirect('/adminDashboard/')
-                elif user.role == 'BUY':
+                elif user.role == 'STO':
                     return redirect('/buyerDashboard/')
-                elif user.role == 'SEL':
+                elif user.role == 'WAR':
                     return redirect('/sellerDashboard/')
                 else:
                     return HttpResponse("Error!!")
@@ -128,7 +128,7 @@ def signup(request):
         newuser.Flat = flat
         newuser.City = city
         newuser.Pincode = pincode
-        newuser.role = 'BUY'
+        newuser.role = 'STO'
         newuser.password = pwd
         newuser.save()
         return render(request, 'SmartMall/Login.html')
@@ -152,7 +152,7 @@ def addsel(request):
         newuser.Flat = flat
         newuser.City = city
         newuser.Pincode = pincode
-        newuser.role = 'SEL'
+        newuser.role = 'WAR'
         newuser.password = pwd
         newuser.save()
         return render(request, 'SmartMall/Admin.html')
@@ -925,7 +925,7 @@ def addB(request):
         City = request.POST['City']
         Pin = request.POST['Pin']
 
-        table = User2()
+        table = User()
         table.Username = Username
         table.FirstName = FirstName
         table.LastName = LastName
@@ -974,7 +974,7 @@ def addcashB(request):
 
 def addfpro(request):
     if request.method == 'POST':
-        # fno= request.POST['fno']
+        fno = request.POST['fno']
         User_id = request.session['logged_in']
         with connection.cursor() as cursor1:
             cursor1.execute("SELECT id from SmartMall_buyer Where UserID_id=%s" % (User_id))
@@ -983,7 +983,7 @@ def addfpro(request):
         limit = request.POST['limit']
         productid = request.POST['productid']
         table = Fridge()
-        # table.FridgeNumber=fno
+        table.FridgeNumber = fno
         table.BuyerID_id = res1[0]
         table.RequiredLimit = limit
         table.ProductID_id = productid
@@ -1061,7 +1061,7 @@ def email(request):
     subject = 'SmartMall Order Details'
     message = ' \nWelcome to a new week of hassle free ordering. \nAfter reviewing you fridge stocks a new order for weekly stocks has been placed. \nThank You '
     email_from = settings.EMAIL_HOST_USER
-    recipient_list = ['2017.mitali.ranawat@ves.ac.in', ]
+    recipient_list = ['nsiwnaarda@gmail.com', ]
     send_mail(subject, message, email_from, recipient_list)
 
     return redirect('/adminDashboard/')
@@ -1104,10 +1104,13 @@ def ajaxresponsehistory(request):
                     out = y.time
         if inn < out:
             st = 0
+            dict[x] = {'id': x, 'in': str(inn).replace(':', '-'), 'out': str(out).replace(':', '-'),
+                       'diff': (out - inn).total_seconds(), 'status': st}
         else:
             st = 1
-        dict[x] = {'id': x, 'in': str(inn).replace(':', '-'), 'out': str(out).replace(':', '-'),
-                   'diff': (out - inn).total_seconds(), 'status': st}
+            dict[x] = {'id': x, 'in': str(inn).replace(':', '-'), 'out': 'NA',
+                       'diff': (timezone.now() - inn).total_seconds(), 'status': st}
+
         li.append(dict[x])
 
     z = json.dumps(li)
