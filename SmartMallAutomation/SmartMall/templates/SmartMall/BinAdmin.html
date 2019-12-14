@@ -56,6 +56,13 @@
   background-color: #050505;
   color: white;
 }
+      .dust{
+          height:400px;
+          transition: height 1s ease-in;
+          text-align: center;
+          font-size: 2vw;
+          margin: 5px;
+      }
   </style>
 </head>
 
@@ -163,6 +170,38 @@
                   <li class="active"  data-toggle="tab"><a class="btn btn-dark btn-block" href="#home">Bin Status</a></li><br>
 
                 </ul>
+            <script>
+        function loadDoc() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+
+                var ab = JSON.parse(this.responseText);
+
+                for(x in ab){
+                    var str = "sp"+x;
+                    if(ab[x].fields.status == 0){
+
+                        document.getElementById(str).style.background='green';
+
+                    }
+                    else{
+                        document.getElementById(str).style.background='red';
+                    }
+                    var d = parseFloat(ab[x].fields.dist)
+                    d = d+50
+                    document.getElementById(str).style.height = d.toString()+'px';
+                    document.getElementById(str).innerHTML = ab[x].fields.location;
+                }
+                 ;
+
+                }
+                };
+            xhttp.open("GET", "getBindata/", true);
+         xhttp.send();
+        }
+        window.setInterval(loadDoc, 50);
+    </script>
          
                 <div class="tab-content col-sm-12">
 
@@ -171,7 +210,23 @@
                                 
 
                                 
-                                *** PUT CODE HERE ***
+                                <div id="evaluate" class ="row">
+                                  <div  class = "col-4">
+
+                                    </div>
+                                  <div id="sp0" class = "col-2 dust">
+
+                                    </div>
+                                    <div id="sp1" class = "col-2 dust">
+
+                                    </div>
+
+                                  <div class = "col-4">
+
+                                    </div>
+
+
+                                </div>
 
 
 
