@@ -20,7 +20,7 @@ from django.utils import timezone
 
 from SmartMall.forms import LoginForm
 from .models import Product, Fridge, Buyer, Seller, SellerStock, Order, Fridgetemp, Fridgehumidity, User1, Parking, \
-    Fingerenter, Dustbin, Token
+    Fingerenter, Dustbin, Token, Cart
 # from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth import authenticate
@@ -1221,6 +1221,62 @@ def ajaxresponsehistory(request):
             st = 1
             dict[x] = {'id': x, 'in': str(inn).replace(':', '-'), 'out': 'NA',
                        'diff': "{0:.2f}".format((timezone.now() - inn).total_seconds()), 'status': st}
+
+        li.append(dict[x])
+
+    z = json.dumps(li)
+    return HttpResponse(z)
+
+
+def ajaxresponsehistorycart(request):
+    if request.method == 'GET':
+        cartID = request.GET['cartid']
+    a = Cart.objects.filter(scannerid = cartID )
+    set = []
+    li = []
+    dict = {}
+    for x in a:
+        if x.productid not in set:
+            set.append(x.productid)
+    i=0
+    for x in set:
+        dict[i] = {'id': x, 'cart': cartID,
+                       'quantity': a[i].quantity , 'price': a[i].price }
+        li.append(dict[i])
+        i+=1
+
+    z = json.dumps(li)
+    return HttpResponse(z)
+
+def ajaxresponsehistory(request):
+    global max1, max0, inn, out
+    a = Fingerenter.objects.order_by('fingernumber')
+    set = []
+    li = []
+    dict = {}
+    for x in a:
+        if x.fingernumber not in set:
+            set.append(x.fingernumber)
+    for x in set:
+        max1 = 0
+        max0 = 0
+        for y in a:
+            if y.fingernumber == x and y.inn == 1:
+                if max1 < y.id:
+                    max1 = y.id
+                    inn = y.time
+            if y.fingernumber == x and y.inn == 0:
+                if max0 < y.id:
+                    max0 = y.id
+                    out = y.time
+        if inn < out:
+            st = 0
+            dict[x] = {'id': x, 'in': str(inn).replace(':', '-'), 'out': str(out).replace(':', '-'),
+                       'diff': "{0:.2f}".format((out - inn).total_seconds()), 'status': st}
+        else:
+            st = 1
+            dict[x] = {'id': x, 'in': str(inn).replace(':', '-'), 'out': 'NA',
+                       'diff': "{0:.2f}".format((timezone.now() - inn).total_seconds()+19800), 'status': st}
 
         li.append(dict[x])
 

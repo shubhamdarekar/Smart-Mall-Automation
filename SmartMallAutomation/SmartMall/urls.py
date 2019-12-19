@@ -83,6 +83,7 @@ urlpatterns = [
 
     re_path(r'getparkingdata/$', views.ajaxresponse),
     re_path(r'getparkinghistory/$', views.ajaxresponsehistory),
+    re_path(r'getcarthistory/$', views.ajaxresponsehistorycart),
     re_path(r'getBindata/$', views.ajaxresponseBin),
     re_path(r'uploadedpics/$', views.uploaded),
 ]

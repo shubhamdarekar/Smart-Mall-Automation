@@ -118,3 +118,13 @@ class Token(models.Model):
 
     class Meta:
         db_table = 'dustbintoken'
+
+class Cart(models.Model):
+    scannerid = models.IntegerField()
+    productid = models.IntegerField()
+    quantity = models.IntegerField()
+    price = models.IntegerField()
+    
+
+    class Meta:
+        db_table = 'cart'

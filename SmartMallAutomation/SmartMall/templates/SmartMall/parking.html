@@ -299,6 +299,7 @@
 
 <script>
     var i = 0;
+    var len = 0;
     var cell1 = [];
     var cell2 = [];
     var cell3 = [];
@@ -309,10 +310,22 @@
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
+              
 
                 var ab = JSON.parse(this.responseText);
 
-                var table = document.getElementById('customers')
+
+                var table = document.getElementById('customers');
+
+                if(len != ab.length){
+                  i=0;
+                  for(j=0;j<len;j++){
+                    table.deleteRow(1);
+                  }
+                  
+                }
+
+
 
                 for (x in ab){
                     if(i === 0){
@@ -334,6 +347,7 @@
                     cell6[x].innerHTML = (ab[x].diff/100).toFixed(2);
 
                 };
+                len = ab.length;
                 i+=1;
 
 
