@@ -1189,11 +1189,11 @@ def ajaxresponsehistory(request):
         if inn < out:
             st = 0
             dict[x] = {'id': x, 'in': str(inn).replace(':', '-'), 'out': str(out).replace(':', '-'),
-                       'diff': (out - inn).total_seconds(), 'status': st}
+                       'diff': "{0:.2f}".format((out - inn).total_seconds()), 'status': st}
         else:
             st = 1
             dict[x] = {'id': x, 'in': str(inn).replace(':', '-'), 'out': 'NA',
-                       'diff': (timezone.now() - inn).total_seconds(), 'status': st}
+                       'diff': "{0:.2f}".format((timezone.now() - inn).total_seconds()), 'status': st}
 
         li.append(dict[x])
 
