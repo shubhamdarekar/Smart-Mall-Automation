@@ -125,6 +125,9 @@ def Signupbin(request):
 def binadminDashboard(request):
     return render(request, "SmartMall/BinAdmin.html")
 
+def cart(request):
+    return render(request, "SmartMall/CartBilling.html")    
+
 
 def binuserDashboard(request):
     User_id = request.session['logged_in']
@@ -873,6 +876,30 @@ def addP(request):
         table.save()
     return redirect('/adminDashboard/')
 
+def selectcart(request):
+    if request.method == 'POST':
+        cartID = request.POST['cartid']
+
+    with connection.cursor() as cursor1:
+        cursor1.execute("SELECT * from cart  Where scannerid=%s" % (cartID))
+        res1 = cursor1.fetchall()
+
+        # return HttpResponse(res)
+        x = 0
+        data1 = dict()
+        for r in res1:
+            data1[x] = {
+                "id": r[0],
+                "Cart": r[1],
+                "Product": r[2],
+                "Price": r[3],
+                "Quantity": r[4],
+            }
+            x += 1
+
+   
+
+    return render(request, "SmartMall/CartBilling.html", {"data1": data1})
 
 def selectsel(request):
     if request.method == 'POST':

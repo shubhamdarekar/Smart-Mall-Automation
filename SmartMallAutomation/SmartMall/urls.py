@@ -24,6 +24,7 @@ urlpatterns = [
     url('^ordCHE/$', views.ordCHE),
     url('^selectsel/$', views.selectsel),
     url('^selectbuy/$', views.selectbuy),
+    url('^selectcart/$', views.selectcart),
 
     url('^signup/$', views.signup),
     url('^signupbin/$', views.signupbin),
@@ -37,6 +38,7 @@ urlpatterns = [
     url('^openfridge/$', views.openFridge),
     url('^openorder/$', views.openOrder),
     url('^openstock/$', views.openStock),
+    url('^cart/$', views.cart),
 
     url('^sendmail/$', views.email),
 
