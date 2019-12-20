@@ -1,3 +1,6 @@
 /SmartMallAutomation/venv
 /SmartMallAutomation/.idea
 /SmartMallAutomation/SmartMall/__pycache__
+.gitignore
+/SmartMallAutomation/requirement.txt
+/SmartMallAutomation/SmartMallAutomation/settings.py
