@@ -26,8 +26,24 @@
 
 
   <link href="{% static '/Landing/css/agency.min.css' %}" rel="stylesheet">
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        var tot = 0;
+        $('tr').each(function () {
 
+            $this.find('.totalprice').each(function () {
+                var marks = $this.text();
+                if(marks.length!==0){
+                    tot+=parseFloat(marks);
+                }
+            });
+
+        });
+        $this.find('#total').html('= :'+tot);
+    });
+</script>-->
 
 
   <style>
@@ -180,6 +196,7 @@
     var cell3 = [];
     var cell4 = [];
     var cell5 = [];
+    var cell6 = [];
     
         function loadDoc2() {
             var cartid;
@@ -196,7 +213,7 @@
 
                 var ab = JSON.parse(this.responseText);
 
-                var table = document.getElementById('customers')
+                var table = document.getElementById('customers');
                 if(len != ab.length){
                   i=0;
                   for(j=0;j<len;j++){
@@ -214,14 +231,22 @@
                         cell3[x] = row.insertCell();
                         cell4[x] = row.insertCell();
                         cell5[x] = row.insertCell();
+                        cell6[x] = row.insertCell();
                     };
 
 
                     cell1[x].innerHTML = ab[x].id;
                     cell2[x].innerHTML = ab[x].cart;
-                    cell4[x].innerHTML = ab[x].quantity;
-                    cell5[x].innerHTML = ab[x].price;
-                    
+                    cell3[x].innerHTML = ab[x].name;
+                    var str = "<button id =\""+ab[x].id.toString()+"r\" onclick='removeItem(\"";
+                    str+= ab[x].id.toString();
+                    str+="\",\"";
+                    str +=ab[x].cart.toString();
+                    str+="\")'>-"+ "</button> "+ab[x].quantity+"  <button id = \""+ab[x].id.toString()+"a\"  onclick='addItem(\""+ab[x].id.toString()+"\",\""+ab[x].cart.toString()+"\")'>+</button>";
+                    cell4[x].innerHTML = str;
+                        cell5[x].innerHTML = ab[x].price;
+                    cell6[x].innerHTML = parseFloat(ab[x].price)*ab[x].quantity;
+
 
                 };
                 len = ab.length
@@ -231,11 +256,60 @@
 
                 };
                 };
-            xhttp.open("GET", "getcarthistory/?cartid="+cartid, false);
+            xhttp.open("GET", "getcarthistory/?cartid="+cartid, true);
             xhttp.send();
         }
-window.setInterval(loadDoc2, 50);
+window.setInterval(loadDoc2, 600);
+    {#function addItem(var id;var cart){#}
+    {#    {{  }}#}
     </script>
+<script>
+    function total() {
+            var table = document.getElementById("customers"), sumVal = 0;
+
+            for(var i = 1; i < table.rows.length; i++)
+            {
+                sumVal = sumVal + parseInt(table.rows[i].cells[5].innerHTML);
+            }
+
+            document.getElementById("total").innerHTML = "Total = " + sumVal;
+    }
+   window.setInterval(total, 50);
+</script>
+<script>
+    function addItem(id1,cart1) {
+            document.getElementById(id1+"a").disable = true;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+
+
+                console.log(this.responseText);
+                document.getElementById(id1+"a").disable = false;
+
+
+                }
+                };
+            xhttp.open("GET", "additemincart/?cartid="+cart1+"&pid="+id1, true);
+            xhttp.send();
+        }
+        function removeItem(id1,cart1) {
+        document.getElementById(id1+"r").disable = true;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+
+
+                console.log(this.responseText);
+                document.getElementById(id1+"r").disable = false;
+
+
+                }
+                };
+            xhttp.open("GET", "removeitemincart/?cartid="+cart1+"&pid="+id1, true);
+            xhttp.send();
+        }
+</script>
 
     
 
@@ -247,7 +321,7 @@ window.setInterval(loadDoc2, 50);
 
                 <div id="evaluate">
                     
-                        <form>
+
                         
                             <tr>
                                 
@@ -262,7 +336,7 @@ window.setInterval(loadDoc2, 50);
                                 </td>
                                 
                             </tr>
-                        </form>
+
                     </div>
 
                     <table id="customers">
@@ -274,6 +348,7 @@ window.setInterval(loadDoc2, 50);
             <th>Product</th>
             <th>Quantity</th>
             <th>Price</th>
+              <th>Total</th>
                     
           </tr>
             
@@ -290,7 +365,8 @@ window.setInterval(loadDoc2, 50);
             
             {% endfor %}  -->
                   
-          </table>  
+          </table>
+              <p id="total">Total : </p>
                   
 
 

@@ -85,5 +85,8 @@ urlpatterns = [
     re_path(r'getparkinghistory/$', views.ajaxresponsehistory),
     re_path(r'getcarthistory/$', views.ajaxresponsehistorycart),
     re_path(r'getBindata/$', views.ajaxresponseBin),
+    re_path(r'additemincart/$', views.additemincart),
+    re_path(r'removeitemincart/$', views.removeitemincart),
     re_path(r'uploadedpics/$', views.uploaded),
+    re_path(r'process/$', views.processImage),
 ]

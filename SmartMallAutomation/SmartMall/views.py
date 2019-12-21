@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-
+from imageai.Detection import ObjectDetection
 from django.core import serializers
 
 from django.shortcuts import render
@@ -17,10 +17,11 @@ from django.template import loader
 # from django.template import context
 # import mysql.connector
 from django.utils import timezone
+from pyrebase import pyrebase
 
 from SmartMall.forms import LoginForm
 from .models import Product, Fridge, Buyer, Seller, SellerStock, Order, Fridgetemp, Fridgehumidity, User1, Parking, \
-    Fingerenter, Dustbin, Token, Cart
+    Fingerenter, Dustbin, Token, Cart, Images
 # from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth import authenticate
@@ -125,8 +126,9 @@ def Signupbin(request):
 def binadminDashboard(request):
     return render(request, "SmartMall/BinAdmin.html")
 
+
 def cart(request):
-    return render(request, "SmartMall/CartBilling.html")    
+    return render(request, "SmartMall/CartBilling.html")
 
 
 def binuserDashboard(request):
@@ -605,10 +607,12 @@ def buyerDash(request):
                 # "SmartMall_product.ProductName":r[7]
             }
             a += 1
+
+            data14 = serializers.serialize("json", Images.objects.order_by('-id').all()[:5])
     return render(request, "SmartMall/Buyer.html",
                   {"data": data, "data1": data1, "data2": data2, "data3": data3, "data4": data4, "data5": data5,
                    "data6": data6, "data7": data7, "data8": data8, "data9": data9, "data10": data10, "data11": data11,
-                   "data12": data12, "data13": data13})
+                   "data12": data12, "data13": data13, "data14": Images.objects.order_by('-id').all()[:5]})
 
 
 # else:
@@ -876,6 +880,7 @@ def addP(request):
         table.save()
     return redirect('/adminDashboard/')
 
+
 def selectcart(request):
     if request.method == 'POST':
         cartID = request.POST['cartid']
@@ -897,9 +902,8 @@ def selectcart(request):
             }
             x += 1
 
-   
-
     return render(request, "SmartMall/CartBilling.html", {"data1": data1})
+
 
 def selectsel(request):
     if request.method == 'POST':
@@ -1058,7 +1062,7 @@ def addbin(request):
         loc = request.POST['binlocation']
         stat = request.POST['binstatus']
 
-        table = dustbinstatus()
+        table = Dustbin()
         table.status = stat
         table.location = loc
 
@@ -1231,22 +1235,31 @@ def ajaxresponsehistory(request):
 def ajaxresponsehistorycart(request):
     if request.method == 'GET':
         cartID = request.GET['cartid']
-    a = Cart.objects.filter(scannerid = cartID )
+    else:
+        return HttpResponse("[]")
+    a = Cart.objects.filter(scannerid=cartID)
     set = []
     li = []
     dict = {}
     for x in a:
-        if x.productid not in set:
-            set.append(x.productid)
-    i=0
+        flg = 0
+        for d in set:
+            if x.productid == d.productid:
+                flg = 1
+                break
+        if flg == 0:
+            set.append(x)
+    i = 0
     for x in set:
-        dict[i] = {'id': x, 'cart': cartID,
-                       'quantity': a[i].quantity , 'price': a[i].price }
+        q = Cart.objects.filter(productid=x.productid, scannerid=cartID)
+        dict[i] = {'id': x.productid, 'cart': cartID,
+                   'quantity': len(q), 'price': set[i].price, 'name': set[i].name}
         li.append(dict[i])
-        i+=1
+        i += 1
 
     z = json.dumps(li)
     return HttpResponse(z)
+
 
 def ajaxresponsehistory(request):
     global max1, max0, inn, out
@@ -1276,7 +1289,7 @@ def ajaxresponsehistory(request):
         else:
             st = 1
             dict[x] = {'id': x, 'in': str(inn).replace(':', '-'), 'out': 'NA',
-                       'diff': "{0:.2f}".format((timezone.now() - inn).total_seconds()+19800), 'status': st}
+                       'diff': "{0:.2f}".format((timezone.now() - inn).total_seconds() + 19800), 'status': st}
 
         li.append(dict[x])
 
@@ -1292,3 +1305,36 @@ def ajaxresponseBin(request):
 def uploaded(request):
     return render(request,
                   'https://console.firebase.google.com/u/0/project/mallautomation/storage/mallautomation.appspot.com/files~2Ffridge')
+
+
+def checkForRestocking(request):
+    pass
+
+
+def additemincart(request):
+    if request.method == 'GET':
+        cartID = request.GET['cartid']
+        pid = request.GET['pid']
+
+    c = Cart(scannerid=cartID, productid=pid, quantity=1)
+    c.save()
+
+    return HttpResponse(cartID + "  " + pid)
+
+
+def removeitemincart(request):
+    if request.method == 'GET':
+        cartID = request.GET['cartid']
+        pid = request.GET['pid']
+    c = Cart.objects.filter(scannerid=cartID, productid=pid)
+    c[0].delete()
+    return HttpResponse(cartID + "  " + pid)
+
+
+def processImage(request):
+    s = Images.objects.filter(status=0)
+    for ob in s:
+        idy = ob.id
+        
+
+        return redirect('/buyerDashboard/')

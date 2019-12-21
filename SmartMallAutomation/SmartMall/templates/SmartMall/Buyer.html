@@ -689,7 +689,37 @@
   </ul>
   <!-- Tab panes -->
   <div class="tab-content col-sm-12">
-    <div class="tab-pane well active in active" id="home2"> 
+    <div class="tab-pane well active in active" id="home2">
+        <div class="tab-content col-sm-12">
+
+
+                            <div class="tab-pane well active in active" id="home">
+
+
+
+                                <div class ="container row">
+
+                                    {% for r in data14 %}
+                                  <div  class = "col-lg-5" >
+                                  <a href="{{ r.url }}">
+                                    <img style="border:20px" src="{{ r.url }}" height="300px">
+                                      <a>
+                                          {% if r.status == 0 %}
+                                              To Be Ordered
+                                          {% else %}
+                                                Ordered
+                                          {% endif %}
+                                    </div>
+                                    {% endfor %}
+
+
+                                </div>
+
+
+<a href="/process/"><button>Process</button></a>
+
+                            </div>
+    </div>
         <br><br><h1><strong>Order History</strong></h1>
         <br><br>
         <table id="customers">
