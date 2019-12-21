@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-from imageai.Detection import ObjectDetection
+
 from django.core import serializers
 
 from django.shortcuts import render
@@ -17,7 +17,7 @@ from django.template import loader
 # from django.template import context
 # import mysql.connector
 from django.utils import timezone
-from pyrebase import pyrebase
+
 
 from SmartMall.forms import LoginForm
 from .models import Product, Fridge, Buyer, Seller, SellerStock, Order, Fridgetemp, Fridgehumidity, User1, Parking, \
