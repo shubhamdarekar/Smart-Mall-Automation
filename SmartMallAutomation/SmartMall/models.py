@@ -119,12 +119,24 @@ class Token(models.Model):
     class Meta:
         db_table = 'dustbintoken'
 
+
 class Cart(models.Model):
     scannerid = models.IntegerField()
-    productid = models.IntegerField()
+    productid = models.TextField()
     quantity = models.IntegerField()
     price = models.IntegerField()
-    
+    name = models.TextField()
 
     class Meta:
         db_table = 'cart'
+
+
+class Images(models.Model):
+    fridge = models.IntegerField()
+    timestamp = models.DateTimeField()
+    url = models.TextField()
+    status = models.IntegerField()
+    urldone = models.TextField()
+
+    class Meta:
+        db_table = 'images'
