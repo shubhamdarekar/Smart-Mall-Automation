@@ -79,7 +79,8 @@ urlpatterns = [
     url('^addfpro/$', views.addfpro),
     url('^addSTO/$', views.addSTO),
     url('^fridgeProducts/$', views.fridgeProducts),
-    path('parking/', views.parkingview),
+    path('parking/', views.parkingview1),
+    path('parking1/', views.parkingview),
 
     re_path(r'getparkingdata/$', views.ajaxresponse),
     re_path(r'getparkinghistory/$', views.ajaxresponsehistory),

@@ -95,6 +95,8 @@ def verifyLogin(request):
                     return redirect('/BinAdmin/')
                 elif user.role == 'BUR':
                     return redirect('/BinUser/')
+                elif user.role == 'PAD':
+                    return redirect('/parking1/')    
                 else:
                     return HttpResponse("Error!!")
 
@@ -1058,7 +1060,7 @@ def addbin(request):
         loc = request.POST['binlocation']
         stat = request.POST['binstatus']
 
-        table = dustbinstatus()
+        table = Dustbin()
         table.status = stat
         table.location = loc
 
@@ -1185,6 +1187,10 @@ def email(request):
 def parkingview(request):
     data = serializers.serialize("json", Parking.objects.all())
     return render(request, 'SmartMall/parking.html', {'data': data})
+
+def parkingview1(request):
+    data = serializers.serialize("json", Parking.objects.all())
+    return render(request, 'SmartMall/parkinguser.html', {'data': data})    
 
 
 def ajaxresponse(request):
